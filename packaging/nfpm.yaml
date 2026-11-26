@@ -1,0 +1,39 @@
+name: kbcolor
+arch: amd64
+platform: linux
+version: ${VERSION}
+section: utils
+priority: optional
+maintainer: Mauricio <33576643+maurih5@users.noreply.github.com>
+description: |
+  GUI minima para el RGB del teclado de la Lenovo LOQ 15IRX10.
+  Incluye lampctl (HID LampArray) compilado estatico.
+homepage: https://github.com/maurih5/kbcolor
+depends:
+  - zenity
+overrides:
+  rpm:
+    depends: [zenity, polkit]
+  deb:
+    depends: [zenity, pkexec | policykit-1]
+contents:
+  - src: kbcolor.sh
+    dst: /usr/bin/kbcolor
+    file_info: { mode: 0755 }
+  - src: build/lampctl/lampctl
+    dst: /usr/bin/lampctl
+    file_info: { mode: 0755 }
+  - src: build/lampctl.service
+    dst: /usr/lib/systemd/system/lampctl.service
+  - src: packaging/lampctl.conf
+    dst: /etc/lampctl.conf
+    type: config|noreplace
+  - src: build/kbcolor.desktop
+    dst: /usr/share/applications/kbcolor.desktop
+  # lampctl es MIT (c) Salvatore Depietra: hay que distribuir su licencia.
+  - src: build/lampctl/LICENSE
+    dst: /usr/share/licenses/kbcolor/LICENSE-lampctl
+    packager: rpm
+  - src: build/lampctl/LICENSE
+    dst: /usr/share/doc/kbcolor/LICENSE-lampctl
+    packager: deb
