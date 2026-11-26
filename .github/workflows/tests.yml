@@ -1,0 +1,33 @@
+name: Tests
+
+# Check obligatorio "test" para mergear a main (ruleset), junto con "Compilar".
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Tests de los scripts de version
+        run: bash .github/scripts/test-version.sh
+
+      - name: Sintaxis de los scripts
+        run: |
+          for f in kbcolor.sh install.sh packaging/build.sh .github/scripts/*.sh; do
+            sh -n "$f" 2>/dev/null || bash -n "$f"
+          done
+
+      - name: Tests de lampctl (fijado a un commit)
+        run: packaging/build.sh --test
