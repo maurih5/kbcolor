@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Teclado RGB
+Comment=Color y brillo del teclado (Lenovo LOQ)
+Exec=@BIN@
+Icon=input-keyboard
+Terminal=false
+Categories=Settings;HardwareSettings;

@@ -1,6 +1,6 @@
 #!/bin/sh
 # GUI minima: presets o color libre con zenity, lo aplica con lampctl (pkexec)
-L=$(command -v lampctl || echo /tmp/opencode/lampctl/lampctl)
+L=$(command -v lampctl) || { zenity --error --text="Falta lampctl. Corre install.sh" 2>/dev/null; exit 1; }
 F=~/.config/kbcolor
 last=$(cat "$F" 2>/dev/null || echo 4a6fa5)
 
